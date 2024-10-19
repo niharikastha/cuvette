@@ -39,24 +39,22 @@ const sendOtpToPhone = (phoneNumber, otp) => {
     const message = `Your OTP code is ${otp}`;
     const messageType = 'OTP';
 
-    try {
+    return new Promise((resolve, reject) => {
         teleSignClient.sms.message((error, responseBody) => {
             if (error) {
-                throw new Error('Could not send OTP to phone');
+                console.error('Error sending OTP:', error);
+                reject(new Error('Could not send OTP to phone'));
+            } else {
+                console.log('OTP sent successfully via phone');
+                resolve(responseBody);
             }
-            console.log('OTP sent successfully via phone');
         }, phoneNumber, message, messageType);
-        return;
-    } catch (error) {
-        console.error('Error sending OTP:', error);
-        throw new Error('Could not send OTP phone');
-    }
-   
+    });
 };
+
 
 exports.sendOtp = async (req, res) => {
     const { medium } = req.body; 
-    console.log("🚀 ~ exports.sendOtp= ~ medium:", medium)
 
     try {
         const companyId = req.user?.companyId;
@@ -80,8 +78,11 @@ exports.sendOtp = async (req, res) => {
 
             const formattedPhoneNumber = company?.phone.startsWith("+91") ? company.phone : `+91${company.phone}`;
 
-            console.log("🚀 ~ exports.sendOtp= ~ formattedPhoneNumber:", formattedPhoneNumber)
-            await sendOtpToPhone(formattedPhoneNumber, otp); 
+            try {
+                await sendOtpToPhone(formattedPhoneNumber, otp); 
+            } catch (error) {
+                return res.status(500).json({ status: 'error', message: 'Failed to send OTP to phone' });
+            }
         } else {
             return res.status(400).json({ message: 'Either email or phone must be provided' });
         }
