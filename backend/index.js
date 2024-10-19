@@ -7,7 +7,7 @@ const app = express();
 connectDB();
 
 const corsOptions = {
-    origin: 'https://cuvette-lqxg.vercel.app',
+    origin: 'https://cuvette-lqxg-adfopwas8-niharikasthas-projects.vercel.app',
     credentials: true, 
 };
 
