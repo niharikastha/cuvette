@@ -7,7 +7,7 @@ const app = express();
 connectDB();
 
 const corsOptions = {
-    origin: 'http://localhost:3000', 
+    // origin: 'http://localhost:3000', 
     origin: 'https://cuvette-lqxg.vercel.app',
     credentials: true, 
 };
