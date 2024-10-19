@@ -2,7 +2,7 @@ import axios from 'axios';
 import Router from 'next/router'; 
 
 const axiosInstance = axios.create({
-  baseURL: 'https://cuvette-omega-silk.vercel.app', 
+  baseURL: 'https://cuvette-omega-silk.vercel.app/?vercelToolbarCode=qjaMRZnONDF9ODI', 
   withCredentials: true, 
 });
 
