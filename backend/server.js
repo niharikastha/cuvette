@@ -6,11 +6,24 @@ require('dotenv').config();
 const app = express();
 connectDB();
 
-app.use(cors());
+const corsOptions = {
+    origin: 'http://localhost:3000', 
+    origin: 'https://cuvette-lqxg.vercel.app',
+    credentials: true, 
+};
+
+app.use(cors(corsOptions)); 
+
 app.use(express.json());
 app.use('/auth', require('./routes/authRoutes'));
 app.use('/job', require('./routes/jobRoutes'));
 app.use('/email', require('./routes/emailRoutes'));
+
+app.get('/', (req, res) => {
+    res.json({
+      message: 'Hello',
+    });
+  });
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
